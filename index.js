@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({
 app.post('/new-message', function (req, res) {
 
   //Each message contains "text" and a "chat" object, which has an "id" which is the chat id
-  const {message} = req.body
+  const message = req.body
 
   if (!message) {
     return res.end()
@@ -85,6 +85,6 @@ app.post('/new-message', function (req, res) {
 });
 
 // Finally, start our server
-app.listen(3000, function () {
+app.listen(8080, function () {
   console.log('Telegram app listening on port 3000!');
 });
