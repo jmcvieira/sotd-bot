@@ -4,9 +4,9 @@
   "description": "Song Of The Day Telegram bot",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "supervisor server.js"
   },
+  "main": "server.js",
   "author": "vieira",
   "license": "ISC",
   "dependencies": {
