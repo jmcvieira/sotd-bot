@@ -71,7 +71,7 @@ bot.onText(/\/reset/, function (msg) {
   bot.sendMessage(fromId, response);
 });
 
-bot.onText(/\/order (\w+)/, function (msg, match) {
+bot.onText(/\/order (\w+) (\w+) (\w+) (\w+) (\w+)/, function (msg, match) {
   var fromId = msg.from.id;
 
   if (match.length < 6)
