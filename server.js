@@ -79,7 +79,7 @@ bot.onText(/\/order (.+)/, function (msg, match) {
   if (split.length < 5)
     response = 'São necessários pelo menos 5 nomes!';
   else {
-    currentList = [split[1], split[2], split[3], split[4], split[5]];
+    currentList = [split[0], split[1], split[2], split[3], split[4]];
     updateCurrentOrder();
   }
 
