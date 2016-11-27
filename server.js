@@ -74,7 +74,7 @@ bot.onText(/\/reset/, function (msg) {
 bot.onText(/\/order (.+)/, function (msg, match) {
   var fromId = msg.from.id;
 
-  var split = match.split(' ');
+  var split = match[1].split(' ');
 
   if (split.length < 5)
     response = 'São necessários pelo menos 5 nomes!';
@@ -83,7 +83,6 @@ bot.onText(/\/order (.+)/, function (msg, match) {
     updateCurrentOrder();
   }
 
-  // send back the matched "whatever" to the chat
   bot.sendMessage(fromId, response);
 });
 
