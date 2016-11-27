@@ -11,36 +11,88 @@ var bot = new TelegramBot(token, {
 users = ['Fernando', 'Vieira', 'Tiago', 'Caetano', 'Soraia'];
 currentList = clone(users);
 previousList = [];
-currentOrder = 'SOTD - A ordem desta semana é:\nSegunda-Feira - ' + currentList[0] + '\nTerça-Feira - ' + currentList[1] +
-  '\nQuarta-Feira - ' + currentList[2] + '\nQuinta-Feira - ' + currentList[3] + '\nSexta-Feira - ' + currentList[4];
+response = '';
+updateCurrentOrder();
+
+function updateCurrentOrder() {
+  currentOrder = 'SOTD - A ordem desta semana é:\nSegunda-Feira - ' + currentList[0] + '\nTerça-Feira - ' + currentList[1] +
+    '\nQuarta-Feira - ' + currentList[2] + '\nQuinta-Feira - ' + currentList[3] + '\nSexta-Feira - ' + currentList[4];
+  response = currentOrder;
+};
 
 bot.onText(/\/shuffle/, function (msg) {
   var fromId = msg.from.id;
 
   previousList = clone(currentList);
   shuffle(currentList);
-  currentOrder = 'SOTD - A ordem desta semana é:\nSegunda-Feira - ' + currentList[0] + '\nTerça-Feira - ' + currentList[1] +
-    '\nQuarta-Feira - ' + currentList[2] + '\nQuinta-Feira - ' + currentList[3] + '\nSexta-Feira - ' + currentList[4];
-  var resp = currentOrder;
+  updateCurrentOrder();
 
-  bot.sendMessage(fromId, resp);
+  bot.sendMessage(fromId, response);
 });
 
 bot.onText(/\/list/, function (msg) {
   var fromId = msg.from.id;
 
-  var resp = currentOrder;
+  bot.sendMessage(fromId, response);
+});
 
-  bot.sendMessage(fromId, resp);
+bot.onText(/\/who/, function (msg) {
+  var fromId = msg.from.id;
+
+  var d = new Date();
+  var n = d.getDay();
+  if (n > 0 && n < 6) {
+    response = 'SOTD - Hoje é a vez de:\n' + currentList[n - 1];
+  } else {
+    response = 'SOTD - Hoje é dia de descanço! :D';
+  }
+
+  bot.sendMessage(fromId, response);
+});
+
+bot.onText(/\/prev/, function (msg) {
+  var fromId = msg.from.id;
+
+  currentList = previousList;
+  updateCurrentOrder();
+
+  bot.sendMessage(fromId, response);
 });
 
 bot.onText(/\/reset/, function (msg) {
   var fromId = msg.from.id;
 
   currentList = clone(users);
-  currentOrder = 'SOTD - A ordem desta semana é:\nSegunda-Feira - ' + currentList[0] + '\nTerça-Feira - ' + currentList[1] +
-    '\nQuarta-Feira - ' + currentList[2] + '\nQuinta-Feira - ' + currentList[3] + '\nSexta-Feira - ' + currentList[4];
-  var resp = 'A ordem original foi reposta!';
+  updateCurrentOrder();
+  response = 'A ordem original foi reposta!';
 
+  bot.sendMessage(fromId, response);
+});
+
+bot.onText(/\/order (\w+)/, function (msg, match) {
+  var fromId = msg.from.id;
+
+  if (match.length < 6)
+    response = 'São necessários pelo menos 5 nomes!';
+  else {
+    currentList = [match[1], match[2], match[3], match[4], match[5]];
+    updateCurrentOrder();
+  }
+
+  // send back the matched "whatever" to the chat
   bot.sendMessage(fromId, resp);
+});
+
+bot.onText(/\/help/, function (msg) {
+  var fromId = msg.from.id;
+
+  response = 'Este é o bot da SOTD (Song Of The Day), os comandos suportados são os seguintes:\n' +
+    '/shuffle - Cria uma nova listagem de pessoas para cada dia da semana\n' +
+    '/prev - A lista é modificada para a lista anterior\n' +
+    '/list - Apresenta a lista da semana actual\n' +
+    '/who - Apresenta o responsável pela música do dia de hoje\n' +
+    '/order - Permite definir uma ordem específica, seguido de 5 nomes\n' +
+    '/reset - A lista é reposta para uma ordem inicial\n';
+
+  bot.sendMessage(fromId, response);
 });
