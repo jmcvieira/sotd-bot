@@ -71,13 +71,15 @@ bot.onText(/\/reset/, function (msg) {
   bot.sendMessage(fromId, response);
 });
 
-bot.onText(/\/order (\w+) (\w+) (\w+) (\w+) (\w+)/, function (msg, match) {
+bot.onText(/\/order (.+)/, function (msg, match) {
   var fromId = msg.from.id;
 
-  if (match.length < 6)
+  var split = match.split(' ');
+
+  if (split.length < 5)
     response = 'São necessários pelo menos 5 nomes!';
   else {
-    currentList = [match[1], match[2], match[3], match[4], match[5]];
+    currentList = [split[1], split[2], split[3], split[4], split[5]];
     updateCurrentOrder();
   }
 
