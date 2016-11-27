@@ -21,25 +21,25 @@ function updateCurrentOrder() {
 };
 
 bot.onText(/\/shuffle/, function (msg) {
-  var fromId = msg.from.id;
+  var chatId = msg.chat.id;
 
   previousList = clone(currentList);
   shuffle(currentList);
   updateCurrentOrder();
 
-  bot.sendMessage(fromId, response);
+  bot.sendMessage(chatId, response);
 });
 
 bot.onText(/\/list/, function (msg) {
-  var fromId = msg.from.id;
+  var chatId = msg.chat.id;
 
   response = currentOrder;
 
-  bot.sendMessage(fromId, response);
+  bot.sendMessage(chatId, response);
 });
 
 bot.onText(/\/who/, function (msg) {
-  var fromId = msg.from.id;
+  var chatId = msg.chat.id;
 
   var d = new Date();
   var n = d.getDay();
@@ -49,30 +49,30 @@ bot.onText(/\/who/, function (msg) {
     response = 'SOTD - Hoje é dia de descanço! :D';
   }
 
-  bot.sendMessage(fromId, response);
+  bot.sendMessage(chatId, response);
 });
 
 bot.onText(/\/prev/, function (msg) {
-  var fromId = msg.from.id;
+  var chatId = msg.chat.id;
 
   currentList = previousList;
   updateCurrentOrder();
 
-  bot.sendMessage(fromId, response);
+  bot.sendMessage(chatId, response);
 });
 
 bot.onText(/\/reset/, function (msg) {
-  var fromId = msg.from.id;
+  var chatId = msg.chat.id;
 
   currentList = clone(users);
   updateCurrentOrder();
   response = 'A ordem original foi reposta!';
 
-  bot.sendMessage(fromId, response);
+  bot.sendMessage(chatId, response);
 });
 
 bot.onText(/\/order (.+)/, function (msg, match) {
-  var fromId = msg.from.id;
+  var chatId = msg.chat.id;
 
   var split = match[1].split(' ');
 
@@ -83,11 +83,11 @@ bot.onText(/\/order (.+)/, function (msg, match) {
     updateCurrentOrder();
   }
 
-  bot.sendMessage(fromId, response);
+  bot.sendMessage(chatId, response);
 });
 
 bot.onText(/\/help/, function (msg) {
-  var fromId = msg.from.id;
+  var chatId = msg.chat.id;
 
   response = 'Este é o bot da SOTD (Song Of The Day), os comandos suportados são os seguintes:\n' +
     '/shuffle - Cria uma nova listagem de pessoas para cada dia da semana\n' +
@@ -97,13 +97,5 @@ bot.onText(/\/help/, function (msg) {
     '/order - Permite definir uma ordem específica, seguido de 5 nomes\n' +
     '/reset - A lista é reposta para uma ordem inicial\n';
 
-  bot.sendMessage(fromId, response);
-});
-
-bot.onText(/\/debug/, function (msg) {
-  var fromId = msg.from.id;
-
-  response = fromId;
-
-  bot.sendMessage(fromId, response);
+  bot.sendMessage(chatId, response);
 });
