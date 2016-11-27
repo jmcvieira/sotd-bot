@@ -99,3 +99,11 @@ bot.onText(/\/help/, function (msg) {
 
   bot.sendMessage(fromId, response);
 });
+
+bot.onText(/\/debug/, function (msg) {
+  var fromId = msg.from.id;
+
+  response = fromId;
+
+  bot.sendMessage(fromId, response);
+});
