@@ -33,6 +33,8 @@ bot.onText(/\/shuffle/, function (msg) {
 bot.onText(/\/list/, function (msg) {
   var fromId = msg.from.id;
 
+  response = currentOrder;
+
   bot.sendMessage(fromId, response);
 });
 
@@ -80,7 +82,7 @@ bot.onText(/\/order (\w+)/, function (msg, match) {
   }
 
   // send back the matched "whatever" to the chat
-  bot.sendMessage(fromId, resp);
+  bot.sendMessage(fromId, response);
 });
 
 bot.onText(/\/help/, function (msg) {
